@@ -1,0 +1,7 @@
+name: toolshed
+description: Hop toolshed
+dependencies:
+  hop: any
+
+#dependencies:
+#  unittest: any
