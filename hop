@@ -1,3 +1,3 @@
 #!/bin/bash
-dart /Users/damondouglas/Documents/projects/dart/toolshed/tool/hop_runner.dart "$@"
+dart [Path to toolshed.dart]/tool/hop_runner.dart "$@"
 
