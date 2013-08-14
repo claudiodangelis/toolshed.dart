@@ -13,16 +13,16 @@ pa - Create a Polymer Web App project.
 
 wa - Create a Web App project.
 
-Install:
+##Install:
 
 1.  Replace `[Path to toolshed.dart]` in [hop](https://github.com/damondouglas/toolshed.dart/blob/master/hop).
 2.  Make [hop](https://github.com/damondouglas/toolshed.dart/blob/master/hop) executible as described in the [hop wiki](https://github.com/kevmoo/hop.dart/wiki/Using-Hop,-Part-3:-Transform-Your-Hop-Task-Application-Into-an-Executable-to-Run-Anywhere).
 
-Use:
+##Use:
 
 `hop [Task] [name]`
 
-Example:
+##Example:
 
 _I want to create a Polymer Web App project called counter:_
 
