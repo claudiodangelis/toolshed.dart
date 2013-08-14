@@ -13,6 +13,8 @@ pa - Create a Polymer Web App project.
 
 wa - Create a Web App project.
 
+[![Build Status](https://drone.io/github.com/damondouglas/toolshed.dart/status.png)](https://drone.io/github.com/damondouglas/toolshed.dart/latest)
+
 ##Install:
 
 1.  Replace `[Path to toolshed.dart]` in [hop](https://github.com/damondouglas/toolshed.dart/blob/master/hop).
