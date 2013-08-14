@@ -13,6 +13,8 @@ pa - Create a Polymer Web App project.
 
 wa - Create a Web App project.
 
+xsla - Create a StageXL App project.
+
 [![Build Status](https://drone.io/github.com/damondouglas/toolshed.dart/status.png)](https://drone.io/github.com/damondouglas/toolshed.dart/latest)
 
 ##Install:
