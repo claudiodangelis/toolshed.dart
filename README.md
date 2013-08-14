@@ -24,3 +24,5 @@ _I want to create a Polymer Web App project called counter:_
 `hop pa counter`
 
 _All necessary files are built in the contextual directory from the command-line._
+
+_Acknowledgements to the Polymer project example from [Dartwatch](http://blog.dartwatch.com/2013/08/translating-web-ui-x-click-counter-to.html)._
