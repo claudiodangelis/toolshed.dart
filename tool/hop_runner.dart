@@ -1,7 +1,9 @@
 library hop_runner;
 
 import 'dart:io';
+import 'dart:async';
 import 'package:hop/hop.dart';
+import 'package:hop/hop_tasks.dart';
 import 'package:args/args.dart';
 import 'package:toolshed/create_project_tasks.dart';
 
@@ -11,6 +13,7 @@ void main() {
   addTask('cla', createCommandLineApp());
   addTask('wa', createWebApp());
   addTask('pa', createPolymerApp());
+  addTask('analyze_hop', createAnalyzerTask(['lib/create_project_tasks.dart','lib/src/chrome_packaged_app.dart','lib/src/command_line_app.dart','lib/src/polymer_project.dart','lib/src/web_project.dart']));
   runHop(paranoid:false);
 }
 
@@ -63,3 +66,4 @@ Task createPolymerApp() {
     return true;
   },description:"Create a Polymer Web App project.");
 }
+
