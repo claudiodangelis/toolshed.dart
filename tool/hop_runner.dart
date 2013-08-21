@@ -13,6 +13,7 @@ void main() {
   addTask('cla', createCommandLineApp());
   addTask('wa', createWebApp());
   addTask('pa', createPolymerApp());
+  addTask('sxla', createStageXLApp());
   addTask('analyze_hop', createAnalyzerTask(['lib/create_project_tasks.dart','lib/src/chrome_packaged_app.dart','lib/src/command_line_app.dart','lib/src/polymer_project.dart','lib/src/web_project.dart']));
   runHop(paranoid:false);
 }
@@ -67,3 +68,10 @@ Task createPolymerApp() {
   },description:"Create a Polymer Web App project.");
 }
 
+Task createStageXLApp() {
+  return new Task.sync((TaskContext ctx) {
+    StageXLApp sxla = new StageXLApp(ctx.arguments.rest[0], new Directory("."));
+    sxla.build(ctx);
+    return true;
+  },description:"Create a StageXL App project.");
+}
