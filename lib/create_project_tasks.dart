@@ -7,3 +7,4 @@ part 'src/chrome_packaged_app.dart';
 part 'src/command_line_app.dart';
 part 'src/web_project.dart';
 part 'src/polymer_project.dart';
+part 'src/stagexl_project.dart';
