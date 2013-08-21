@@ -40,3 +40,7 @@ _Acknowledgements to the Polymer project example from [Dartwatch](http://blog.da
  * [Damon Douglas](https://github.com/damondouglas) ([+Damon Douglas](https://plus.google.com/u/0/108940381045821372455/))
  * [Yissachar Radcliffe](https://github.com/yissachar) ([+Yissachar Radcliffe](https://plus.google.com/u/0/103867820058265110617))
  * _You? File bugs. Fork and Fix bugs. Let's build this community._
+ 
+ ##More Information:
+ * [https://github.com/kevmoo/hop.dart](https://github.com/kevmoo/hop.dart)
+ * [Getting Started With Hop](https://github.com/kevmoo/hop.dart/wiki#getting-started-guides)
