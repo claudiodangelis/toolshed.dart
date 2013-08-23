@@ -3,9 +3,9 @@ part of project;
 class WebApp {
   String _name;
   Directory _dir;
-  WebApp(String name, Directory dir){    
+  WebApp(String name, Directory dir){
     _name = name;
-    _dir = dir; 
+    _dir = dir;
   }
   void build(TaskContext ctx) {
     Map _project = {
@@ -21,18 +21,18 @@ class WebApp {
       File f = new File("${_dir.path}/$k");
       Directory dir = f.directory;
       dir.exists().then((exists){
-      if(!exists) dir.createSync(); 
+      if(!exists) dir.createSync();
         if(v is String){
           f.writeAsStringSync(v);
         }
         if(v is List<int>){
-          f.writeAsBytesSync(v); 
+          f.writeAsBytesSync(v);
         }
       });
       ctx.info(k);
     });
   }
-  
+
   String _pubspec(){
     return
 """
@@ -43,9 +43,9 @@ dependencies:
   hop: any
 """;
   }
-  
+
   String _css() {
-    return 
+    return
 """
 
 body {
@@ -76,9 +76,9 @@ h1, p {
 }
 """;
   }
-  
+
   String _main() {
-    return 
+    return
 """
 import 'dart:html';
 
@@ -107,9 +107,9 @@ void reverseText(MouseEvent event) {
 }
 """;
   }
-  
+
   String _html() {
-    return 
+    return
 """
 <!DOCTYPE html>
 
@@ -134,15 +134,15 @@ void reverseText(MouseEvent event) {
 </html>
 """;
   }
-  
+
   String _json() {
     return
 """
 {"foo":"bar"}
 """;
   }
-  
-  
+
+
   String _hop(){
     return
 """
@@ -168,11 +168,12 @@ void main() {
 }
 """;
   }
-  
+
   String _server(){
     return
 """
 import 'dart:io';
+import 'package:path/path.dart' as Path;
 
 _sendNotFound(HttpResponse response) {
   response.statusCode = HttpStatus.NOT_FOUND;
@@ -182,14 +183,14 @@ _sendNotFound(HttpResponse response) {
 startServer(String basePath) {
   HttpServer.bind('127.0.0.1', 8080).then((server) {
     server.listen((HttpRequest request) {
-      final Path path = new Path(request.uri.path).canonicalize();
-      if (!path.isAbsolute) {
+      final path = Path.normalize(request.uri.path);
+      if (!Path.isAbsolute(path)) {
         _sendNotFound(request.response);
         return;
       }
       // PENDING: Do more security checks here?
       final String stringPath =
-          path.toString() == '/' ? '/index.html' : path.toString();
+          path == '/' ? '/${_name}.html' : path;
       final File file = new File('\${basePath}\${stringPath}');
       file.exists().then((bool found) {
         if (found) {
