@@ -14,7 +14,17 @@ void main() {
   addTask('wa', createWebApp());
   addTask('pa', createPolymerApp());
   addTask('sxla', createStageXLApp());
-  addTask('analyze_hop', createAnalyzerTask(['lib/create_project_tasks.dart','lib/src/chrome_packaged_app.dart','lib/src/command_line_app.dart','lib/src/polymer_project.dart','lib/src/web_project.dart']));
+  
+  var pathS = [
+	'lib/create_project_tasks.dart',
+	'lib/src/chrome_packaged_app.dart',
+	'lib/src/command_line_app.dart',
+	'lib/src/polymer_project.dart',
+	'lib/src/web_project.dart',
+	'lib/src/stagexl_project.dart'
+  ];
+  
+  addTask('analyze_hop', createAnalyzerTask(pathS));
   runHop(paranoid:false);
 }
 
