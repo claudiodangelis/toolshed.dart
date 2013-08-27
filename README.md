@@ -37,8 +37,9 @@ _All necessary files are built in the contextual directory from the command-line
 _Acknowledgements to the Polymer project example from [Dartwatch](http://blog.dartwatch.com/2013/08/translating-web-ui-x-click-counter-to.html)._
 
 ##Authors:
- * [Damon Douglas](https://github.com/damondouglas) ([+Damon Douglas](https://plus.google.com/u/0/108940381045821372455/))
+ * [Damon Douglas](https://github.com/damondouglas) ([+Damon Douglas](https://plus.google.com/u/0/108940381045821372455))
  * [Yissachar Radcliffe](https://github.com/yissachar) ([+Yissachar Radcliffe](https://plus.google.com/u/0/103867820058265110617))
+ * [Naoto Hc](https://github.com/naotohc) ([+Naoto Hc](https://plus.google.com/116785868972125654368))
  * _You? File bugs. Fork and Fix bugs. Let's build this community._
  
 ##More Information:
