@@ -400,7 +400,7 @@ void main() {
   
   addTask('analyze_libs', createAnalyzerTask(paths));
   
-  addTask('dart2js', createDartCompilerTask(paths, liveTypeAnalysis: true, rejectDeprecatedFeatures: true, allowUnsafeEval:false));
+  addTask('dart2js', createDartCompilerTask(paths, liveTypeAnalysis: true, allowUnsafeEval:false));
   
   runHop();
 }
