@@ -30,3 +30,11 @@ cd sxla
 dart ../../tool/hop_runner.dart sxla sxla
 pub install
 dart tool/hop_runner.dart analyze_libs
+
+cd ..
+mkdir pa
+cd pa
+dart ../../tool/hop_runner.dart pa pa
+pub install
+dart build.dart
+dart tool/hop_runner.dart analyze_libs
