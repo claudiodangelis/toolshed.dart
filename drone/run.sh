@@ -16,3 +16,10 @@ cd cpa
 dart ../../tool/hop_runner.dart cpa cpa
 pub install
 dart tool/hop_runner.dart analyze_libs
+
+cd ..
+mkdir wa
+cd wa
+dart ../../tool/hop_runner.dart wa wa
+pub install
+dart tool/hop_runner.dart analyze_libs
