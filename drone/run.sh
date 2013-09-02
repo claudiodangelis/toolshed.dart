@@ -23,3 +23,10 @@ cd wa
 dart ../../tool/hop_runner.dart wa wa
 pub install
 dart tool/hop_runner.dart analyze_libs
+
+cd ..
+mkdir sxla
+cd sxla
+dart ../../tool/hop_runner.dart sxla sxla
+pub install
+dart tool/hop_runner.dart analyze_libs
