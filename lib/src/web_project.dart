@@ -158,7 +158,7 @@ void main() {
   
   addTask('analyze_libs', createAnalyzerTask(paths));
   
-  addTask('dart2js', createDartCompilerTask(paths, liveTypeAnalysis: true, rejectDeprecatedFeatures: true));
+  addTask('dart2js', createDartCompilerTask(paths, liveTypeAnalysis: true));
 
   addTask('cs', createProcessTask("/Applications/dart/chromium/Content Shell.app/Contents/MacOS/Content Shell",args:["--dump-render-tree","web/${_name}.html"], description:"Run in content_shell."));  
 
