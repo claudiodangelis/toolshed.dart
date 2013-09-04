@@ -15,6 +15,7 @@ mkdir cpa
 cd cpa
 dart ../../tool/hop_runner.dart cpa cpa
 pub install
+dart build.dart
 dart tool/hop_runner.dart analyze_libs
 
 cd ..
