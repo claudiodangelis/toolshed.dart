@@ -13,11 +13,10 @@ class PolymerApp {
       "web/${_name}.css":_css(),
       "web/${_name}.html":_html(),
       "web/${_name}.dart":_main(),
-      "web/xclickcounter.dart":_elementdart(),
-      "web/xclickcounter.html":_elementhtml(),
+      "web/clickcounter.dart":_elementdart(),
+      "web/clickcounter.html":_elementhtml(),
       "web/server.dart":_server(),
       "tool/hop_runner.dart":_hop(),
-      "build.dart":_build()
     };
     _project.forEach((k,v){
       File f = new File("${_dir.path}/$k");
@@ -86,7 +85,7 @@ h1, p {
 import 'dart:html';
  
 void main() {
-  query("#counter_template").model = 5;
+
 }
 """;
   }
@@ -95,31 +94,18 @@ void main() {
     return
 """
 <!DOCTYPE html>
- 
+
 <html>
   <head>
-    <meta charset="utf-8">
-    <title>Sample app</title>
-    <link rel="stylesheet" href="${_name}.css">
-    
-    <!-- import the click-counter -->
-    <link rel="import" href="xclickcounter.html">
-  </head>
-  <body>
-    <h1>${_name}</h1>
-    
-    <p>Hello world from Dart!</p>
-    
-    <div id="sample_container_id">      
-      <template id="counter_template" bind>     
-        <my-clickcounter id="click_counter" count="{{}}"></my-clickcounter>
-      </template>           
-    </div>
- 
-    <script type="application/dart" src="${_name}.dart"></script>
+    <link rel="import" href="clickcounter.html">
     <script src="packages/polymer/boot.js"></script>
+  </head>
+ 
+  <body>   
+    <click-counter></click-counter>
   </body>
 </html>
+
 """;
   }
 
@@ -141,10 +127,10 @@ void main() {
   addTask('dart2js', createDartCompilerTask(paths, liveTypeAnalysis: true));
 
   // For OSX only, replace with your favorite operating system path
-  addTask('cs', createProcessTask("/Applications/dart/chromium/Content Shell.app/Contents/MacOS/Content Shell",args:["--dump-render-tree","web/out/${_name}.html"], description:"Run in content_shell."));  
+  addTask('cs', createProcessTask("/Applications/dart/chromium/Content Shell.app/Contents/MacOS/Content Shell",args:["--dump-render-tree","http://localhost:8080/${_name}.html"], description:"Run in content_shell."));  
 
   // For OSX only, replace with your favorite operating system path
-  addTask('run', createProcessTask("/Applications/dart/chromium/Chromium.app/Contents/MacOS/Chromium",args:["web/out/${_name}.html"], description:"Run in Chromium."));
+  addTask('run', createProcessTask("/Applications/dart/chromium/Chromium.app/Contents/MacOS/Chromium",args:["http://localhost:8080/${_name}.html"], description:"Run in Chromium."));
 
   runHop();
 }
@@ -207,32 +193,18 @@ main() {
 """;
   }
 
-  String _build(){
-return
-"""
-import 'dart:io';
-import 'package:polymer/component_build.dart';
- 
-// Ref: http://www.dartlang.org/articles/dart-web-components/tools.html
-main() {
-  build(new Options().arguments, ['web/${_name}.html']);
-}
-""";
-  }
-
   String _elementdart(){
     return
 """
 import 'package:polymer/polymer.dart';
- 
-@CustomTag("my-clickcounter")
-class MyClickcounter extends PolymerElement 
-                        with ObservableMixin {
-  @observable
-  int count = 0;
- 
-  void increment() {
-    count++;
+import 'dart:html';
+
+@CustomTag('click-counter')
+class ClickCounterElement extends PolymerElement with ObservableMixin {
+  @observable int count = 0;
+  
+  void increment(Event e, var detail, Node target) {
+    count += 1;
   }
 }
 """;
@@ -241,21 +213,13 @@ class MyClickcounter extends PolymerElement
   String _elementhtml(){
     return
 """
-<!DOCTYPE html>
- 
-<html>
-  <body>
-    <polymer-element name="my-clickcounter" attributes="count">
-      <template>
-        <div>
-          <button on-click="increment">Click me</button><br />
-          <span>(click count: {{ count }})</span>
-        </div>
-      </template>
-      <script type="application/dart" src="xclickcounter.dart"></script>
-    </polymer-element>
-  </body>
-</html>
+<polymer-element name="click-counter">
+  <template>
+    <button on-click="increment">Click Me</button>
+    <p>You clicked the button {{count}} times.</p>
+  </template>
+  <script type="application/dart" src="clickcounter.dart"></script>
+</polymer-element>
 """;
   }
 }
