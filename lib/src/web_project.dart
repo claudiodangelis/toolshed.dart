@@ -3,20 +3,26 @@ part of project;
 class WebApp {
   String _name;
   Directory _dir;
+  bool _isBlank;
   WebApp(String name, Directory dir){
     _name = name;
     _dir = dir;
   }
   void build(TaskContext ctx) {
+    _isBlank = ctx.arguments["blank"];
     Map _project = {
       "pubspec.yaml":_pubspec(),
       "web/${_name}.css":_css(),
       "web/${_name}.html":_html(),
-      "web/${_name}.json":_json(),
       "web/${_name}.dart":_main(),
       "web/server.dart":_server(),
       "tool/hop_runner.dart":_hop()
     };
+
+    if(!_isBlank) {
+      _project["web/${_name}.json"] = _json();
+    }
+
     _project.forEach((k,v){
       File f = new File("${_dir.path}/$k");
       Directory dir = f.directory;
@@ -45,9 +51,10 @@ dependencies:
   }
 
   String _css() {
-    return
+    String _sampleContent = '';
+    if(!_isBlank) {
+      _sampleContent =
 """
-
 body {
   background-color: #F8F8F8;
   font-family: 'Open Sans', sans-serif;
@@ -75,10 +82,13 @@ h1, p {
   margin-top: 140px;
 }
 """;
+      }
+    return _sampleContent;
   }
 
   String _main() {
-    return
+    if(!_isBlank) {
+      return
 """
 import 'dart:html';
 
@@ -106,9 +116,30 @@ void reverseText(MouseEvent event) {
   query("#sample_text_id").text = buffer.toString();
 }
 """;
+    }
+    return
+"""
+import 'dart:html';
+
+void main() {}
+""";
   }
 
   String _html() {
+    String _sampleContent = '';
+    if(!_isBlank) {
+      _sampleContent =
+"""\n
+    <h1>${_name}</h1>
+    
+    <p>Hello world from Dart!</p>
+    
+    <div id="sample_container_id">
+      <p id="sample_text_id"></p>
+    </div>
+
+""";
+    }
     return
 """
 <!DOCTYPE html>
@@ -119,14 +150,7 @@ void reverseText(MouseEvent event) {
     <title>${_name}</title>
     <link rel="stylesheet" href="${_name}.css">
   </head>
-  <body>
-    <h1>${_name}</h1>
-    
-    <p>Hello world from Dart!</p>
-    
-    <div id="sample_container_id">
-      <p id="sample_text_id"></p>
-    </div>
+  <body>$_sampleContent
 
     <script type="application/dart" src="${_name}.dart"></script>
     <script src="packages/browser/dart.js"></script>

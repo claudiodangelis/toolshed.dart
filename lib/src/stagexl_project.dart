@@ -3,11 +3,13 @@ part of project;
 class StageXLApp {
   String _name;
   Directory _dir;
-  StageXLApp(String name, Directory dir){    
+  bool _isBlank;
+  StageXLApp(String name, Directory dir){
     _name = name;
-    _dir = dir; 
+    _dir = dir;
   }
   void build(TaskContext ctx) {
+    _isBlank = ctx.arguments["blank"];
     Map _project = {
       "pubspec.yaml":_pubspec(),
       "web/${_name}.html":_html(),
@@ -18,18 +20,18 @@ class StageXLApp {
       File f = new File("${_dir.path}/$k");
       Directory dir = f.directory;
       dir.exists().then((exists){
-      if(!exists) dir.createSync(); 
+      if(!exists) dir.createSync();
         if(v is String){
           f.writeAsStringSync(v);
         }
         if(v is List<int>){
-          f.writeAsBytesSync(v); 
+          f.writeAsBytesSync(v);
         }
       });
       ctx.info(k);
     });
   }
-  
+
   String _pubspec(){
     return
 """
@@ -41,14 +43,12 @@ dependencies:
   stagexl: any
 """;
   }
-      
-  String _main() {
-    return 
-"""
-import 'dart:html' as html;
-import 'package:stagexl/stagexl.dart';
 
-void main() {
+  String _main() {
+    String _sampleContent = '';
+    if(!_isBlank) {
+      _sampleContent =
+"""
   // setup the Stage and RenderLoop 
   var canvas = html.query('#stage');
   var stage = new Stage('myStage', canvas);
@@ -70,12 +70,25 @@ void main() {
   shape.graphics.circle(100, 100, 60);
   shape.graphics.fillColor(Color.Red);
   stage.addChild(shape);
+""";
+    }
+    return
+"""
+import 'dart:html' as html;
+import 'package:stagexl/stagexl.dart';
+
+void main() {
+$_sampleContent
 }
 """;
   }
-  
+
   String _html() {
-    return 
+    String _sampleContent = '';
+    if(!_isBlank) {
+      _sampleContent = '\n    <canvas id="stage" width="800" height="600"></canvas>';
+    }
+    return
 """
 <!DOCTYPE html>
 
@@ -84,9 +97,7 @@ void main() {
     <meta charset="utf-8">
     <title>${_name}</title>    
   </head>
-  <body>
-    
-    <canvas id="stage" width="800" height="600"></canvas>
+  <body>$_sampleContent
 
     <script type="application/dart" src="${_name}.dart"></script>
     <script src="packages/browser/dart.js"></script>
@@ -94,7 +105,7 @@ void main() {
 </html>
 """;
   }
-     
+
   String _hop(){
     return
 """

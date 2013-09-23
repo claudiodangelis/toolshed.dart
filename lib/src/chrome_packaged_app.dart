@@ -3,12 +3,14 @@ part of project;
 class ChromePackagedApp {
   String _name;
   Directory _dir;
+  bool _isBlank;
   ChromePackagedApp(String name, Directory dir){
     _name = name;
     _dir = dir;
   }
 
   void build(TaskContext ctx) {
+    _isBlank = ctx.arguments["blank"];
     Map _project = {
       "pubspec.yaml":_pubspec(),
       "app/background.js":_background(),
@@ -25,20 +27,20 @@ class ChromePackagedApp {
       File f = new File("${_dir.path}/$k");
       Directory dir = f.directory;
       dir.exists().then((exists){
-      if(!exists) dir.createSync(); 
+      if(!exists) dir.createSync();
         if(v is String){
           f.writeAsStringSync(v);
         }
         if(v is List<int>){
-          f.writeAsBytesSync(v); 
+          f.writeAsBytesSync(v);
         }
       });
       ctx.info(k);
     });
   }
-  
+
   String _pubspec(){
-    return 
+    return
 """
 name: $_name
 description: A sample chrome packaged application
@@ -48,9 +50,9 @@ dependencies:
   hop: any
 """;
   }
-  
+
   String _background() {
-    return 
+    return
 """
 chrome.app.runtime.onLaunched.addListener(function(launchData) {
   chrome.app.window.create('${_name}.html', {
@@ -59,9 +61,11 @@ chrome.app.runtime.onLaunched.addListener(function(launchData) {
 });
 """;
   }
-  
+
   String _css(){
-    return 
+    String _sampleContent = '';
+    if(!_isBlank) {
+      _sampleContent =
 """
 body {
   background-color: #F8F8F8;
@@ -89,9 +93,12 @@ h1, p {
   margin-top: 140px;
 }
 """;
+    }
+    return _sampleContent;
   }
-  
+
   String _main() {
+    if(!_isBlank) {
     return
 """
 import 'dart:html';
@@ -126,9 +133,17 @@ void resizeWindow(MouseEvent event) {
 }
 """;
   }
-  
+    return
+"""
+import 'dart:html';
+import 'package:js/js.dart' as js;
+
+void main() {}
+""";
+  }
+
   List<int> _icon() {
-      String icon64 = 
+      String icon64 =
 """
 iVBORw0KGgoAAAANSUhEUgAAANwAAADcCAYAAAAbWs+BAAAACXBIWXMAAAsTAAALEwEAmpwYAAAC
 bmlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczpt
@@ -262,7 +277,7 @@ q5Q7VZjQERDhQveQ7KsUAiJcpdypwoSOgAgXuodkX6UQ+H9cPPQVbwvzKgAAAABJRU5ErkJggg==
       icon64 = icon64.replaceAll(" ", "");
       return crypto.CryptoUtils.base64StringToBytes(icon64);
   }
-  
+
   String _manifest(){
     return
 """
@@ -282,7 +297,7 @@ q5Q7VZjQERDhQveQ7KsUAiJcpdypwoSOgAgXuodkX6UQ+H9cPPQVbwvzKgAAAABJRU5ErkJggg==
 }
 """;
   }
-  
+
   String _build(){
     return
 """
@@ -334,7 +349,7 @@ void copyFile(Uri src, Uri dest) {
 
 """;
   }
-  
+
   String _readme(){
     return
 """
@@ -347,8 +362,22 @@ http://developer.chrome.com/apps/about_apps.html.
 `web/cpa.html`.
 """;
   }
-  
+
   String _html() {
+    String _sampleContent = '';
+    if(!_isBlank) {
+      _sampleContent =
+"""
+\n    <h1>${_name}</h1>
+
+    <p>Hello world from Dart!</p>
+
+    <div id="sample_container_id">
+      <p id="sample_text_id"></p>
+    </div>
+    
+""";
+    }
     return
 """
 <!DOCTYPE html>
@@ -359,15 +388,7 @@ http://developer.chrome.com/apps/about_apps.html.
     <title>${_name}</title>
     <link rel="stylesheet" href="${_name}.css">
   </head>
-  <body>
-    <h1>${_name}</h1>
-
-    <p>Hello world from Dart!</p>
-
-    <div id="sample_container_id">
-      <p id="sample_text_id"></p>
-    </div>
-    
+  <body>$_sampleContent
     <!-- Currently, when deploying your Chrome app, you'll need to compile -->
     <!-- the Dart code to Javascript, remove the 'type' attribute below, and -->
     <!-- change the 'src' reference to the .dart.js file. -->
@@ -380,7 +401,7 @@ http://developer.chrome.com/apps/about_apps.html.
 </html>
 """;
   }
-  
+
   String _hop(){
     return
 """

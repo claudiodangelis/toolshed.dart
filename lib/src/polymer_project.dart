@@ -3,21 +3,27 @@ part of project;
 class PolymerApp {
   String _name;
   Directory _dir;
+  bool _isBlank;
   PolymerApp(String name, Directory dir){
     _name = name;
     _dir = dir;
   }
   void build(TaskContext ctx) {
+    _isBlank = ctx.arguments["blank"];
     Map _project = {
       "pubspec.yaml":_pubspec(),
       "web/${_name}.css":_css(),
       "web/${_name}.html":_html(),
       "web/${_name}.dart":_main(),
-      "web/clickcounter.dart":_elementdart(),
-      "web/clickcounter.html":_elementhtml(),
       "web/server.dart":_server(),
       "tool/hop_runner.dart":_hop(),
     };
+
+    if(!_isBlank) {
+      _project["web/clickcounter.dart"] = _elementdart();
+      _project["web/clickcounter.html"] = _elementhtml();
+    }
+
     _project.forEach((k,v){
       File f = new File("${_dir.path}/$k");
       Directory dir = f.directory;
@@ -47,7 +53,9 @@ dependencies:
   }
 
   String _css() {
-    return
+    String _sampleContent = '';
+    if(!_isBlank) {
+    _sampleContent =
 """
 
 body {
@@ -78,6 +86,8 @@ h1, p {
 }
 """;
   }
+    return _sampleContent;
+  }
 
   String _main() {
     return
@@ -91,18 +101,25 @@ void main() {
   }
 
   String _html() {
+    String _sampleContent = '';
+    String linkImport = '';
+    if(!_isBlank) {
+      _sampleContent = "\n    <click-counter></click-counter>";
+      linkImport = '\n    <link rel="import" href="clickcounter.html">';
+    }
+
     return
 """
 <!DOCTYPE html>
 
 <html>
-  <head>
-    <link rel="import" href="clickcounter.html">
+  <head>$linkImport
+    <link rel="stylesheet" href="${_name}.css">
     <script src="packages/polymer/boot.js"></script>
   </head>
  
-  <body>   
-    <click-counter></click-counter>
+  <body>$_sampleContent
+  
   </body>
 </html>
 

@@ -3,11 +3,13 @@ part of project;
 class CommandLineApp {
   String _name;
   Directory _dir;
-  CommandLineApp(String name, Directory dir){    
+  bool _isBlank;
+  CommandLineApp(String name, Directory dir){
     _name = name;
-    _dir = dir; 
+    _dir = dir;
   }
   void build(TaskContext ctx) {
+    _isBlank = ctx.arguments["blank"];
     Map _project = {
       "pubspec.yaml":_pubspec(),
       "bin/${_name}.dart":_main(),
@@ -17,18 +19,18 @@ class CommandLineApp {
       File f = new File("${_dir.path}/$k");
       Directory dir = f.directory;
       dir.exists().then((exists){
-      if(!exists) dir.createSync(); 
+      if(!exists) dir.createSync();
         if(v is String){
           f.writeAsStringSync(v);
         }
         if(v is List<int>){
-          f.writeAsBytesSync(v); 
+          f.writeAsBytesSync(v);
         }
       });
       ctx.info(k);
     });
   }
-  
+
   String _pubspec() {
     return
 """
@@ -38,16 +40,18 @@ dependencies:
   hop: any
 """;
   }
-  
+
   String _main() {
+    String _sampleContent = '';
+    if(!_isBlank) {
+      _sampleContent = '\n  print("Hello, World!");\n';
+    }
     return
 """
-void main() {
-  print("Hello, World!");
-}
+void main() {$_sampleContent}
 """;
   }
-  
+
   String _hop(){
     return
 """
